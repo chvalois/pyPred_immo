@@ -22,17 +22,24 @@ def generate_models(suffix):
     
     logging.info(f'Prepare dataframe for model generation | Remove NA & useless columns | Shape before: {df.shape}')
 
-    # Columns to keep
-    df = df[['Valeur fonciere', 'Paris', 'Type local', 'Surface reelle bati', 'Nombre pieces principales', 
+    ##### Columns to keep
+    
+    # Version heavy
+    """df = df[['Valeur fonciere', 'Paris', 'Type local', 'Surface reelle bati', 'Nombre pieces principales', 
     'Surface terrain', 'littoral', 'loyer', 'nb_habitants', 'revenu',
        'aeroport', 'alimentation', 'baginade', 'banques', 'boulangerie',
        'camping', 'cinema', 'college_lycee', 'creche', 'ecole', 'ecole_sup',
        'etab_hospi', 'gare', 'gare_nationale', 'hotels', 'info_touristique',
        'parcours_sportif', 'police', 'port_plaisance', 'residence_u',
-       'restaurants', 'resto_u', 'salle_multisport', 'anciennete_vente', 'prix_m2_commune', 'prix_m2_gps']]
+       'restaurants', 'resto_u', 'salle_multisport', 'anciennete_vente', 'prix_m2_commune', 'prix_m2_gps']]"""
+    
+    # Version light
+    df = df[['Valeur fonciere', 'Paris', 'Type local', 'Surface reelle bati', 'Nombre pieces principales', 
+    'Surface terrain', 'littoral', 'loyer', 'nb_habitants', 'revenu',
+       'college_lycee', 'creche', 'ecole', 'ecole_sup', 'gare', 'hotels', 'info_touristique', 'police', 'restaurants', 'salle_multisport', 
+       'anciennete_vente', 'prix_m2_commune', 'prix_m2_gps']]
     
     df = df.dropna()
-    
     logging.info(f'Prepare dataframe for model generation | Remove NA & useless columns | Shape after: {df.shape}')
 
     # Affiche la heatmap avec les valeurs
@@ -109,5 +116,6 @@ def generate_models(suffix):
 
     # Export de la liste des colonnes de X_train
     feature_list = list(X_train.columns)
+    print(X_train.dtypes)
     df_feat = pd.DataFrame({'feature_name': feature_list})
     df_feat.to_csv(f'models/outputs/{suffix}_features_list_for_model_A.csv')
