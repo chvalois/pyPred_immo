@@ -7,9 +7,9 @@ Le projet a pour objectif de déterminer si une annonce immobilière est une bon
 
 # Fonctionnel
 
-- Préparation des données (intégration de la base DVF, retraitement des adresses pour leur ajouter un code IRIS (code "quartier" INSEE), ajout BDD BPE+Loyers+Salaires+Population)
-- Génération de 4 modèles Random Forest : 1 global, 1 Maison Province, 1 Appart Province, 1 Appart Paris
-- Test des modèles via application Streamlit
+- prepare_data.py : Préparation des données (intégration de la base DVF, retraitement des adresses pour leur ajouter un code IRIS (code "quartier" INSEE), ajout BDD BPE+Loyers+Salaires+Population)
+- generate_model.py : Génération de 4 modèles Random Forest : 1 global, 1 Maison Province, 1 Appart Province, 1 Appart Paris
+- demo-streamlit/streamlit-app/streamlit run app.py : Test des modèles via application Streamlit
 
 # Reste à faire
 
