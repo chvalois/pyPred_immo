@@ -9,9 +9,11 @@ Le projet a pour objectif de déterminer si une annonce immobilière est une bon
 
 - Préparation des données (intégration de la base DVF, retraitement des adresses pour leur ajouter un code IRIS (code "quartier" INSEE), ajout BDD BPE+Loyers+Salaires+Population)
 - Génération de 4 modèles Random Forest : 1 global, 1 Maison Province, 1 Appart Province, 1 Appart Paris
+- Test des modèles via application Streamlit
 
 # Reste à faire
 
+- Réflexion mise à disposition des databases de départ (non disponibles sur Github et nécessaires à la préparation de data, et génération de modèle)
 - Ajouter la possibilité de lancer la préparation de données (prepare_data.py) et la génération de modèles (generate_model.py) en ligne de commande
 - Créer docker-compose + dockerfile
 - Tester PCA sur données BPE (base permanente des équipements) pour réduction de dimensions
