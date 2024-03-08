@@ -4,8 +4,8 @@ Le projet a pour objectif de déterminer si une annonce immobilière est une bon
 - Pouvoir expliquer ce qui intervient dans la valeur du bien immobilier
 - Savoir si l’annonce est sur ou sous estimée par rapport à la réalité du marché
 - Pouvoir disposer d’un outil d’estimation automatique
-  
-![2024 03 08 - 6926 - 735x838](https://github.com/chvalois/pyPred_immo/assets/32735527/343e1fd4-a32b-4825-8d55-8b5196935bda)
+
+![image](https://github.com/chvalois/pyPred_immo/assets/32735527/2bb1466e-85b6-4683-b423-50c02ba87c31)
 
 # Fonctionnel
 
