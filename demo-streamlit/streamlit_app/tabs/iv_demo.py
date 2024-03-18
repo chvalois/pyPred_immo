@@ -86,10 +86,10 @@ def run():
     
     
     # Chargement des modèles A
-    model_A_all = load('../../models/20222023s1_model_rf_all_.pkl')
-    model_A_appart_province = load('../../models/20222023s1_model_rf_1_appart_province_.pkl')
+    model_A_all = load('../../models/20222023s1_model_rf_all.pkl')
+    model_A_appart_province = load('../../models/20222023s1_model_rf_1_appart_province.pkl')
     model_A_appart_paris = load('../../models/20222023s1_model_rf_2_appart_paris.pkl')
-    model_A_maison_province = load('../../models/20222023s1model_rf_3_maison_province.pkl')    
+    model_A_maison_province = load('../../models/20222023s1_model_rf_3_maison_province.pkl')    
     
     # Chargement de la liste des features requis pour faire tourner le modèle
     # df_feat = pd.read_csv('../../models/features_list_for_model_A.csv', index_col = 0)

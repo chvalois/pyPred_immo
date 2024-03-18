@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import Lasso
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import mlflow
 
 import logging
 
@@ -15,25 +15,36 @@ import logging
 
 # Fonction d'entraînement de modèle Random Forest
 
-def random_forest_model(X_train, X_test, y_train, y_test):
+def random_forest_model(X_train, X_test, y_train, y_test, suffix, model_type, datetime_now):
 
     logging.info(f'Generate model | X_train.shape: {X_train.shape}')
     logging.info(f'Generate model | X_test.shape: {X_test.shape}')
     logging.info(f'Generate model | y_train.shape: {y_train.shape}')
     logging.info(f'Generate model | y_test.shape: {y_test.shape}')
+
+    # Train model
+    params = {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_leaf": 5,
+    "random_state": 123
+    }
     
-    regr = RandomForestRegressor(n_estimators = 50, max_depth = 500, min_samples_leaf = 5, random_state = 123)
+    regr = RandomForestRegressor(**params)
     regr.fit(X_train, y_train)
     
     y_pred_train = regr.predict(X_train) 
     y_pred_test = regr.predict(X_test)
-    
+
     score_train = regr.score(X_train, y_train)
     score_test = regr.score(X_test, y_test)
     rmse_train = mean_squared_error(y_pred_train, y_train, squared=False)
     rmse_test = mean_squared_error(y_pred_test, y_test, squared=False)
     mae_train = mean_absolute_error(y_pred_train, y_train)
     mae_test = mean_absolute_error(y_pred_test, y_test)
+    r2_test = r2_score(y_pred_test, y_test)
+
+    metrics = {"mae": mae_test, "rmse": rmse_test, "r2": r2_test}
     
     results = {'score_train': score_train, 'score_test': score_test,
               'rmse_train': rmse_train, 'rmse_test': rmse_test,
@@ -46,7 +57,20 @@ def random_forest_model(X_train, X_test, y_train, y_test):
     logging.info(f'Generate model | mae train: {mae_train}')
     logging.info(f'Generate model | mae test: {mae_test}')
     
+    # Tracking ML Flow
+    run_name = f"model_A_{model_type}"
+    artifact_path = f"rf_a_{suffix}_{datetime_now}_{model_type}"
+    
+    with mlflow.start_run(run_name=run_name) as run:
+        mlflow.log_params(params)
+        mlflow.log_metrics(metrics)
+        mlflow.sklearn.log_model(
+            sk_model=regr, input_example=X_test, artifact_path=artifact_path
+        )
+
+
     return regr, results
+
 
 
 # Fonction de réduction de dimension de type lasso

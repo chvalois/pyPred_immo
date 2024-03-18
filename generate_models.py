@@ -4,16 +4,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import logging
 import joblib
+import datetime
 
+from mlflow import MlflowClient
+import mlflow
 from sklearn.model_selection import train_test_split
 from generate_models_functions import random_forest_model, reduc_dim_lasso, print_results
 
-
-
+# Tracking ML Flow - Model A : base price estimation
+client = MlflowClient(tracking_uri="http://127.0.0.1:8080")
 
 def generate_models(suffix):
 
     logging.basicConfig(filename='./logs/logs_calculate_models_' + suffix + '.log', level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+
+    # Tracking ML Flow - Settings
+    datetime_now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    model_A_experiment = mlflow.set_experiment(f"model_A_{suffix}_{datetime_now}")
 
     try:
         df = pd.read_parquet(f'databases/temp/{suffix}_05_export_dvf_completed_final.parquet')
@@ -48,10 +55,13 @@ def generate_models(suffix):
     sns.heatmap(matrice_correlation, annot = True)
     plt.savefig(f"models/outputs/{suffix}_heatmap_correlation.png")
 
+
+
+
     df['Type local'] = df.apply(lambda x: 1 if x['Type local'] == "Maison" else 0, axis = 1)
     target = df['Valeur fonciere']
 
-    # Test 1 : Appartements hors Paris
+    # Test 1 : Appartements Province
     df_1 = df[(df['Type local'] == 0) & (df['Paris'] == 0)]
     target_1 = df_1['Valeur fonciere']
     df_1 = df_1.drop(columns = {'Valeur fonciere'})
@@ -84,23 +94,23 @@ def generate_models(suffix):
 
 
     # Modèle global
-    logging.info(f'Generating model | global')
-    rf_all, results_all = random_forest_model(X_train, X_test, y_train, y_test)
+    logging.info(f'Generating model | Tous biens')
+    rf_all, results_all = random_forest_model(X_train, X_test, y_train, y_test, suffix, "tous_biens", datetime_now)
     reduc_dim_lasso(df, X_train, X_test, y_train, y_test, column_list, "global", suffix)
 
-    # Modèle 1 - Appartements hors Paris
+    # Modèle 1 - Appartements Province
     logging.info(f'Generating model | Modèle 1 | Appartements hors Paris')
-    rf_1, results_1 = random_forest_model(X_train_1, X_test_1, y_train_1, y_test_1)
+    rf_1, results_1 = random_forest_model(X_train_1, X_test_1, y_train_1, y_test_1, suffix, "appartements_province", datetime_now)
     reduc_dim_lasso(df_1, X_train_1, X_test_1, y_train_1, y_test_1, column_list, "appart_province", suffix)
 
     # Modèle 2 - Appartements Paris
     logging.info(f'Generating model | Modèle 2 | Appartements Paris')
-    rf_2, results_2 = random_forest_model(X_train_2, X_test_2, y_train_2, y_test_2)
+    rf_2, results_2 = random_forest_model(X_train_2, X_test_2, y_train_2, y_test_2, suffix, "appartements_paris", datetime_now)
     reduc_dim_lasso(df_2, X_train_2, X_test_2, y_train_2, y_test_2, column_list, "appart_paris", suffix)
 
     # Modèle 3 - Maisons Province
     logging.info(f'Generating model | Modèle 3 | Maisons Province')
-    rf_3, results_3 = random_forest_model(X_train_3, X_test_3, y_train_3, y_test_3)
+    rf_3, results_3 = random_forest_model(X_train_3, X_test_3, y_train_3, y_test_3, suffix, "maisons_province", datetime_now)
     reduc_dim_lasso(df_3, X_train_3, X_test_3, y_train_3, y_test_3, column_list, "maison_province", suffix)
 
     print_results("Modèle global", results_all)
@@ -109,10 +119,10 @@ def generate_models(suffix):
     print_results("Modèle 3 - Maisons Province", results_3)
 
     # Sauvegarde des modèles
-    joblib.dump(rf_all, f'models/{suffix}_model_rf_all_.pkl', compress = 3)
-    joblib.dump(rf_1, f'models/{suffix}_model_rf_1_appart_province_.pkl', compress = 3)
+    joblib.dump(rf_all, f'models/{suffix}_model_rf_all.pkl', compress = 3)
+    joblib.dump(rf_1, f'models/{suffix}_model_rf_1_appart_province.pkl', compress = 3)
     joblib.dump(rf_2, f'models/{suffix}_model_rf_2_appart_paris.pkl', compress = 3)
-    joblib.dump(rf_3, f'models/{suffix}model_rf_3_maison_province.pkl', compress = 3)
+    joblib.dump(rf_3, f'models/{suffix}_model_rf_3_maison_province.pkl', compress = 3)
 
     # Export de la liste des colonnes de X_train
     feature_list = list(X_train.columns)
