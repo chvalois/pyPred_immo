@@ -22,5 +22,7 @@ Le projet a pour objectif de déterminer si une annonce immobilière est une bon
 - Mettre à jour le modèle B à partir des annonces scrapées (modèles actuellement en production ne sont pas compatibles avec version scikit learn installée), evtl prévoir un autre environnement pour ce modèle
 - Mettre à disposition une API
 - Mettre en place ML Flow pour un suivi des modèles entraînés
+- Ajouter des tests unitaires
+- Ajouter parallélisation
 
 
