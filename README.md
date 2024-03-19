@@ -1,17 +1,31 @@
-# projet_immo
+# pyPred_immo
+
 Le projet a pour objectif de déterminer si une annonce immobilière est une bonne affaire ou non en fonction des caractéristiques du bien.
 
 - Pouvoir expliquer ce qui intervient dans la valeur du bien immobilier
 - Savoir si l’annonce est sur ou sous estimée par rapport à la réalité du marché
 - Pouvoir disposer d’un outil d’estimation automatique
 
+Il est possible d'effectuer des prédictions à partir de l'application Streamlit intégrée dans ce projet :
 ![image](https://github.com/chvalois/pyPred_immo/assets/32735527/2bb1466e-85b6-4683-b423-50c02ba87c31)
 
 # Ce qui est fonctionnel
 
-- prepare_data.py : Préparation des données (intégration de la base DVF, retraitement des adresses pour leur ajouter un code IRIS (code "quartier" INSEE), ajout BDD BPE+Loyers+Salaires+Population)
-- generate_model.py : Génération de 4 modèles Random Forest (1 global, 1 Maison Province, 1 Appart Province, 1 Appart Paris) pour estimation du prix de base (Modèle A), et génération de 2 modèles Bonus/Malus (Maisons, Appartements) qui viennent apporter un bonus/malus au prix de base en fonction des propriétés du bien (Modèle B)
-- demo-streamlit/streamlit-app/streamlit run app.py : Test des modèles via application Streamlit
+### Préparation des données
+
+prepare_data.py : 
+- Intégration de la base DVF
+- Retraitement des adresses pour leur ajouter un code IRIS (code "quartier" INSEE, cf paragraphe plus bas)
+- Enrichissement avec base de données BPE Insee (Base Permanente des Equipements) + Loyers + Salaires + Population
+
+### Génération des modèles Machine Learning (Random Forest)
+generate_model.py : 
+- Génération de 4 modèles pour estimation du prix de base (Modèle A) : 1 global, 1 Maison Province, 1 Appart Province, 1 Appart Paris
+- Génération de 2 modèles Bonus/Malus (Maisons, Appartements) qui viennent apporter un bonus/malus au prix de base en fonction des propriétés du bien (Modèle B)
+
+### Démo Streamlit
+
+demo-streamlit/streamlit-app/streamlit run app.py : Test des modèles via application Streamlit
 
 ### Tracking ML Flow
 
