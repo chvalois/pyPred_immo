@@ -14,14 +14,16 @@ Il est possible d'effectuer des prédictions à partir de l'application Streamli
 ### Préparation des données
 
 prepare_data.py : 
-- Intégration de la base DVF
+- Intégration de la base DVF (Demande de Valeurs Foncieres) qui contient des informations sur l'intégralité des biens vendus en France
 - Retraitement des adresses pour leur ajouter un code IRIS (code "quartier" INSEE, cf paragraphe plus bas)
-- Enrichissement avec base de données BPE Insee (Base Permanente des Equipements) + Loyers + Salaires + Population
+- Enrichissement avec base de données BPE Insee (Base Permanente des Equipements) + Indices Loyers + Indices Salaires + Population
 
 ### Génération des modèles Machine Learning (Random Forest)
 generate_model.py : 
 - Génération de 4 modèles pour estimation du prix de base (Modèle A) : 1 global, 1 Maison Province, 1 Appart Province, 1 Appart Paris
 - Génération de 2 modèles Bonus/Malus (Maisons, Appartements) qui viennent apporter un bonus/malus au prix de base en fonction des propriétés du bien (Modèle B)
+
+Ces modèles ont fait l'objet de validations croisées (GridSearchCV) et ce sont des modèles de type Random Forest qui ont obtenu les meilleurs résultats.
 
 ### Démo Streamlit
 
