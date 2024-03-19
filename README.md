@@ -45,6 +45,9 @@ Les communes d'au moins 10 000 habitants et une forte proportion des communes de
 
 ### Identification des propriétés du bien décrit dans l'annonce pour mise en place du modèle B (Bonus/Malus)
 
+Sur des milliers d'annonces scrapées, des annotations ont été réalisées pour déterminer le rapport entre propriétés du bien (exemple : l'annonce fait état d'une exposition Sud) et le prix demandé du bien.
+Cela a permis d'entraîner un modèle pour la vente de maison, et un modèle pour la vente d'appartement, qui va venir augmenter ou diminuer le prix de base estimé par le modèle A 
+
 ![2024 03 19 - 6931 - 1434x710](https://github.com/chvalois/pyPred_immo/assets/32735527/726d6e58-2373-49bc-8ccc-fa8a4b827307)
 
 # Reste à faire
