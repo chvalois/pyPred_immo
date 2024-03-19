@@ -21,39 +21,46 @@ def prepare_data(year, suffix):
     logging.basicConfig(filename='./logs/logs_generate_dvf_' + suffix + '.log', level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Chargement du jeu de données DVF
+    logging.info(f"Importing DVF Files ...")
     df = aggregate_dvf(year)
 
     # Préparation du dataframe (manipulations adresses) DVF
+    logging.info(f"Transforming DVF Files ...")
     df = transform_dvf(df)
 
     # Extraction des adresses des biens vendus à partir du dataframe
+    logging.info(f"Extracting addresses from DVF Files ...")
     ad = extract_addresses(df)
     ad.to_parquet(f'databases/temp/{suffix}_00_export_dvf_adresses.parquet')
 
     # Premier filtrage du dataframe (clean duplicates, etc.)
+    logging.info(f"Filtering DVF Files ...")
     df_clean = filter_dvf(df)
 
     # Export de la base qui sera enrichie des codes GPS et IRIS dans le script #2C
+    logging.info(f"Exporting DVF without IRIS codes ...")
     df_clean.to_parquet(f'databases/temp/{suffix}_01_dvf_sans_gps_iris.parquet')
 
     # Ajout des coordonnées GPS à partir d'une base externe d'adresses au Dataframe enrichi DVF
+    logging.info(f"Calculating GPS Coordinates for Addresses Database ...")
     df_ad = pd.read_parquet("databases/addresses_france_sans_arrondissement.parquet")
     dfll = add_gps_coord_to_df(df_clean, df_ad)
     dfll.to_parquet(f'databases/temp/{suffix}_02_export_dvf_with_coordinates.parquet')
 
     # Add IRIS codes to DVF Dataframe
+    logging.info(f"Adding IRIS codes to DVF Dataframe ...")
     dfll_with_iris = add_iris_code(dfll)
     dfll_with_iris.to_parquet(f'databases/temp/{suffix}_03_export_dvf_with_coordinates_with_iris.parquet')
 
     # Generate DPE file in directory database
     # dpe = get_dpe_files_produce_df()
-
     # Merge DF with DPE
     # dpe = pd.read_csv('databases/dpe/dpe_france.csv', low_memory = False)
     #df_completed = merge_with_dpe(dfll_with_iris, dpe)
     #print(df_completed.head())
     
     # Merge DF with additional dataframes
+    logging.info(f"Adding external databases to dataframe ...")
     df = clean_df(dfll_with_iris)
     df = add_littoral(df)
     df = add_loyers(df)
@@ -62,5 +69,5 @@ def prepare_data(year, suffix):
     df = add_bpe(df)
     df.to_parquet(f'databases/temp/{suffix}_04_export_dvf_completed.parquet')
 
-    df = final_clean(df)
+    df = final_clean(df, suffix)
     df.to_parquet(f'databases/temp/{suffix}_05_export_dvf_completed_final.parquet')

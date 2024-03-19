@@ -23,6 +23,7 @@ sidebar_name = "4. Démo du modèle"
 
 def run():
 
+    suffix = "20222023s1"
     st.title('pyPredImmo - Votre futur bien immobilier est-il une bonne affaire ?')
     
     # Applique-t-on le bonus/malus ?
@@ -86,10 +87,10 @@ def run():
     
     
     # Chargement des modèles A
-    model_A_all = load('../../models/20222023s1_model_rf_all.pkl')
-    model_A_appart_province = load('../../models/20222023s1_model_rf_1_appart_province.pkl')
-    model_A_appart_paris = load('../../models/20222023s1_model_rf_2_appart_paris.pkl')
-    model_A_maison_province = load('../../models/20222023s1_model_rf_3_maison_province.pkl')    
+    model_A_all = load(f'../../models/{suffix}_model_A_all.pkl')
+    model_A_appart_province = load(f'../../models/{suffix}_model_A_1_appart_province.pkl')
+    model_A_appart_paris = load(f'../../models/{suffix}_model_A_2_appart_paris.pkl')
+    model_A_maison_province = load(f'../../models/{suffix}_model_A_3_maison_province.pkl')    
     
     # Chargement de la liste des features requis pour faire tourner le modèle
     # df_feat = pd.read_csv('../../models/features_list_for_model_A.csv', index_col = 0)
@@ -117,8 +118,8 @@ def run():
         st.write(err)
         st.write('L\'adresse du bien n\'a pas été trouvée')
     
-    prix_m2_commune = pd.read_csv('../../models/prix_m2_commune.csv', dtype = {'Code postal': int})
-    prix_m2_gps = pd.read_csv('../../models/prix_m2_gps.csv')
+    prix_m2_commune = pd.read_csv(f'../../models/{suffix}_prix_m2_commune.csv', dtype = {'Code postal': int})
+    prix_m2_gps = pd.read_csv(f'../../models/{suffix}_prix_m2_gps.csv')
     
     prix_m2_commune_bien = prix_m2_commune[(prix_m2_commune['Code postal'] == cp) & (prix_m2_commune['Type local'] == type_local_str)]
     prix_m2_commune_bien_val = prix_m2_commune_bien['Prix m2'].iloc[0]
@@ -145,7 +146,7 @@ def run():
         st.write(err)
         iris_annonce = 0
     
-    bpe = pd.read_parquet('../../databases/temp/20222023s1_04b_bpe.parquet')
+    bpe = pd.read_parquet(f'../../databases/temp/{suffix}_04b_bpe.parquet')
 
     """nb_equip = {}
     for equip in ['aeroport', 'alimentation', 'baignade', 'banques', 'boulangerie', 'camping', 'cinema', 'college_lycee', 'creche', 'ecole', 
@@ -205,12 +206,12 @@ def run():
 
     # Calcul du bonus / malus du modèle B
 
-    """# Chargement des modèles B
-    model_B_maison = load('../../models/model_features_maison.pkl')
-    model_B_appart = load('../../models/model_features_appart.pkl')
+    # Chargement des modèles B
+    model_B_maison = load(f'../../models/model_B_features_maison.pkl')
+    model_B_appart = load(f'../../models/model_B_features_appart.pkl')
     
     # Chargement de la liste des features requis pour faire tourner le modèle
-    df_feat_b = pd.read_csv('../../models/features_list_for_model_B.csv', index_col = 0)
+    df_feat_b = pd.read_csv(f'../../models/features_list_for_model_B.csv', index_col = 0)
     
     # Remplissage des paramètres à partir du multi-select extra_features
     Exposition_Sud, Lumineux, Calme, Volume, Standing, Charme, Mezzanine, Avec_Ascenseur, Sans_Ascenseur, Duplex, Dernier_etage, Premier_etage, Deuxieme_etage, Troisieme_etage, Quatrieme_etage, Cinquieme_etage, Sixieme_etage, Septieme_etage, Huitieme_etage, RDC, Design, Terrasse, Parfait_etat, Travaux, Proche_commodites, Vue_degagee, Securise, Emplacement, Atypique, Nature, Meuble, Cave, Parking, Cuisine_americaine, Investissement_locatif, Proche_ecoles, Dressing, Plain_Pied, Garage, Grange, Buanderie, Dependance = features_map(extra_features)   
@@ -232,10 +233,8 @@ def run():
     else:
         bonus_malus_B_str = "{0:.2%}".format(float(bonus_malus_B))
 
-    """
-
     # A supprimer lorsque modèle B de nouveau fonctionnel
-    bonus_malus_B = 0
+    #bonus_malus_B = 0
 
 
 

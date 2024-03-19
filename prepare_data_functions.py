@@ -693,7 +693,7 @@ def add_bpe(df):
 
 ##### -------- Final Cleaning Dataframe completed -------- #####
 
-def final_clean(df):
+def final_clean(df, suffix):
     
     # Calcul de la date de référence : date max du dataframe
     df['Date mutation'] = pd.to_datetime(df['Date mutation'], format="%d/%m/%Y")
@@ -732,8 +732,8 @@ def final_clean(df):
             'prix_m2_y': 'prix_m2_gps'})
     
     # Export des prix / m²
-    df_prix_commune.to_csv('models/prix_m2_commune.csv')
-    df_prix_gps.to_csv('models/prix_m2_gps.csv')
+    df_prix_commune.to_csv(f'models/{suffix}_prix_m2_commune.csv')
+    df_prix_gps.to_csv(f'models/{suffix}_prix_m2_gps.csv')
 
     logging.info(f"Final Clean Dataframe | Shape: {df.shape}")
 

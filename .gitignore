@@ -1,0 +1,8 @@
+/__pycache__/*
+*.twbx
+*.zip
+*.rtf
+/venv/
+/mlruns/
+/notebooks/
+/databases/
