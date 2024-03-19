@@ -29,8 +29,7 @@ Les communes d'au moins 10 000 habitants et une forte proportion des communes de
 
 ### Identification des propriétés du bien décrit dans l'annonce pour mise en place du modèle B (Bonus/Malus)
 
-![2024 03 19 - 6930 - 765x676](https://github.com/chvalois/pyPred_immo/assets/32735527/a26677dc-bd17-423b-8180-bf76823d074b)
-
+![2024 03 19 - 6931 - 1434x710](https://github.com/chvalois/pyPred_immo/assets/32735527/726d6e58-2373-49bc-8ccc-fa8a4b827307)
 
 # Reste à faire
 
