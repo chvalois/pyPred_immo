@@ -11,6 +11,27 @@ Il est possible d'effectuer des prédictions à partir de l'application Streamli
 
 # Ce qui est fonctionnel
 
+### Lancement des scripts en ligne de commande
+
+Se placer à la racine du projet
+
+Lancer les commandes suivantes : 
+
+Pour la préparation de données (le fichier valeursfoncieres-2023.txt doit se trouver dans databases/dvf) :
+```
+python -m src --function prepare_data --year 2023 --suffix 2023
+```
+
+Pour la génération des modèles A (estimation du prix de base) : 
+```
+python -m src --function generate_models_A --suffix 2023
+```
+
+Pour la génération des modèles B (bonus/malus appliqué en fonction des propriétés du bien) :
+```
+python -m src --function generate_models_B --limit 5000
+```
+
 ### Préparation des données
 
 prepare_data.py : 
@@ -53,7 +74,6 @@ Cela a permis d'entraîner un modèle pour la vente de maison, et un modèle pou
 # Reste à faire
 
 - Réflexion mise à disposition des databases de départ (non disponibles sur Github et nécessaires à la préparation de data, et génération de modèle)
-- Ajouter la possibilité de lancer la préparation de données (prepare_data.py) et la génération de modèles (generate_model.py) en ligne de commande
 - Créer docker-compose + dockerfile
 - Tester PCA sur données BPE (base permanente des équipements) pour réduction de dimensions
 - Mettre à disposition une API
