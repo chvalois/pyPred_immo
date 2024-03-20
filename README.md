@@ -7,7 +7,9 @@ Le projet a pour objectif de déterminer si une annonce immobilière est une bon
 - Pouvoir disposer d’un outil d’estimation automatique
 
 Il est possible d'effectuer des prédictions à partir de l'application Streamlit intégrée dans ce projet :
-![image](https://github.com/chvalois/pyPred_immo/assets/32735527/2bb1466e-85b6-4683-b423-50c02ba87c31)
+![2024 03 20 - 6933 - 1920x911](https://github.com/chvalois/pyPred_immo/assets/32735527/a7af5db6-035e-49c0-810f-90ccd8bebdb1)
+![2024 03 20 - 6934 - 1920x911](https://github.com/chvalois/pyPred_immo/assets/32735527/0413366f-0518-468e-976a-d2609173a39e)
+
 
 # Ce qui est fonctionnel
 
