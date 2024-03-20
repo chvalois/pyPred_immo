@@ -7,6 +7,7 @@ Le projet a pour objectif de déterminer si une annonce immobilière est une bon
 - Pouvoir disposer d’un outil d’estimation automatique
 
 Il est possible d'effectuer des prédictions à partir de l'application Streamlit intégrée dans ce projet :
+
 ![2024 03 20 - 6933 - 1920x911](https://github.com/chvalois/pyPred_immo/assets/32735527/a7af5db6-035e-49c0-810f-90ccd8bebdb1)
 ![2024 03 20 - 6934 - 1920x911](https://github.com/chvalois/pyPred_immo/assets/32735527/0413366f-0518-468e-976a-d2609173a39e)
 
@@ -72,6 +73,56 @@ Sur des milliers d'annonces scrapées, des annotations ont été réalisées pou
 Cela a permis d'entraîner un modèle pour la vente de maison, et un modèle pour la vente d'appartement, qui va venir augmenter ou diminuer le prix de base estimé par le modèle A 
 
 ![2024 03 19 - 6931 - 1434x710](https://github.com/chvalois/pyPred_immo/assets/32735527/726d6e58-2373-49bc-8ccc-fa8a4b827307)
+
+# Bases de données utilisées
+
+Plus d'informations dans references/references.txt
+
+Fichiers DVF (Demandes Valeurs Foncieres)
+
+https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/
+
+
+Base Permanente des Equipements
+
+Page : https://www.insee.fr/fr/statistiques/3568629?sommaire=3568656
+
+Fichier : https://www.insee.fr/fr/statistiques/fichier/3568629/Contenu_bpe21_ensemble.zip
+
+
+Contours IRIS
+
+https://geoservices.ign.fr/contoursiris#telechargement
+
+
+Diagnostics de Performance Energétique
+
+https://data.ademe.fr/datasets/dpe-france
+
+
+Indicateurs de Loyers 2022
+
+https://www.data.gouv.fr/fr/datasets/carte-des-loyers-indicateurs-de-loyers-dannonce-par-commune-en-2022/
+
+
+Base Recensement de la Population 2020
+
+https://www.insee.fr/fr/statistiques/7632446?sommaire=7632456
+
+
+Base Revenus par code IRIS 2020
+
+https://www.insee.fr/fr/statistiques/7233950
+
+
+Base Revenus des ménages 2018
+
+https://www.data.gouv.fr/fr/datasets/revenus-et-pauvrete-des-menages-aux-niveaux-national-et-local-revenus-localises-sociaux-et-fiscaux/
+
+
+Base Annonces Scrapées (Non communiqué)
+
+
 
 # Reste à faire
 
