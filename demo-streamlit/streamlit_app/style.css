@@ -44,10 +44,6 @@ section[data-testid="stSidebar"] button[kind="icon"] {
   display: none;
 }
 
-section[data-testid="stSidebar"] .st-bk {
-  background-color: white;
-}
-
 section[data-testid="stSidebar"] .st-c0 {
   background-color: black;
 }

@@ -47,7 +47,7 @@ def run():
             for k, v in enumerate(df_recap['prix_m2']):
                 plt.text(k - 0.25, v + max(df_recap['prix_m2']) / 20, round(v, 0), fontsize = 10, fontweight = 'bold')
                 
-            st.write(df_recap.drop(columns = {'Unnamed: 0'}))
+            #st.write(df_recap.drop(columns = {'Unnamed: 0'}))
 
         st.pyplot(fig)
     

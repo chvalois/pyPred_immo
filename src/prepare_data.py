@@ -1,24 +1,14 @@
-import warnings
-#from pandas.core.common import SettingWithCopyWarning
-#warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
-
 import pandas as pd
-import numpy as np
-from geopy.geocoders import Nominatim
-import json
-import requests
-import time
 import logging
-
-import os
 from glob import glob
-from prepare_data_functions import aggregate_dvf, transform_dvf, extract_addresses, filter_dvf, add_gps_coord_to_df, get_dpe_files_produce_df, add_iris_code, merge_with_dpe, \
+
+from .prepare_data_functions import aggregate_dvf, transform_dvf, extract_addresses, filter_dvf, add_gps_coord_to_df, get_dpe_files_produce_df, add_iris_code, merge_with_dpe, \
                     clean_df, add_littoral, add_loyers, add_population, add_revenus, add_bpe, final_clean
 
 def prepare_data(year, suffix):
 
     # Paramétrage du fichier de logs
-    logging.basicConfig(filename='./logs/logs_generate_dvf_' + suffix + '.log', level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    logging.basicConfig(filename='logs/logs_generate_dvf_' + suffix + '.log', level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Chargement du jeu de données DVF
     logging.info(f"Importing DVF Files ...")

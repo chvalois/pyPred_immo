@@ -1,6 +1,6 @@
-from prepare_data import prepare_data
-from generate_models_A import generate_models_A
-from generate_models_B import generate_models_B
+from .prepare_data import prepare_data
+from .generate_models_A import generate_models_A
+from .generate_models_B import generate_models_B
 
 # Génération des modèles A (estimation prix de base) sur la base d'un sample pour tester le code
 #prepare_data("2023sample", "2023sample")

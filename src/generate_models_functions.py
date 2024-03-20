@@ -129,6 +129,9 @@ def search_best_params(X_train, y_train):
     print(CV_rf.best_params_)
 
 
+##### ---------- FONCTIONS D'ANALYSE DES ANNONCES SCRAPEES ---------- #####
+
+
 def return_code_postal(text):
     try:
         result = re.findall('[0-9]{5}',text)[0]
@@ -154,6 +157,7 @@ def aggregate_classified_ads(limit):
     df3 = pd.read_csv('databases/superimmo/superimmo_20211008_69.csv')
     df = pd.concat([df, df2, df3])
     
+    # Si l'argument limit = 0, on garde toutes les annonces, sinon on conserve un échantillon de la taille indiquée dans l'argument limit
     if limit > 0:
         df = df.sample(n=limit, random_state=123)
     
@@ -178,20 +182,24 @@ def aggregate_classified_ads(limit):
 
     return df
 
+
 def show_ents(doc):
-    """ Afficher des infos d'entités nommées basiques """
+    """ Affiche des infos d'entités nommées basiques """
     if doc.ents:
         for ent in doc.ents:
             print(ent.text+' - '+ent.label_+' - '+str(spacy.explain(ent.label_)))
     else:
         print('No named entities found.')
 
+
 def add_immo_feature(feature_name, liste, nlp, matcher, feature_name_list, color_list, color_pal):
+    """ Matche les annonces avec une feature """
     list_p = [nlp(item) for item in liste]
     matcher.add(feature_name, None, *list_p)
 
     feature_name_list.append(feature_name)
     color_list.append(color_pal[len(color_list)%20])
+
 
 def ents_features(i, doc, ner_lst, df):
     if doc.ents:
@@ -289,7 +297,6 @@ def process_nlp_ads(df):
     for feature, color in zip(feature_name_list, color_list):
         colors[feature] = color
 
-    options = {'ents': feature_name_list, 'colors': colors}
     
     # Vérification des entités présentes par défaut
     ner_lst = nlp.pipe_labels['ner']
@@ -299,7 +306,6 @@ def process_nlp_ads(df):
 
     ### ATTENTION, ce bloc prend bcp de temps à s'exécuter
     for i in range(0, n_lines):
-        annonce = i        
         doc = nlp(df['desc_clean'][i])
         matches = matcher(doc)
 
@@ -345,6 +351,8 @@ def prepare_df_model_b(df):
     df['nb_chambres'] = df['nb_chambres'].astype(int)
 
     df['prix_m2'] = df['prix'] / df['surface']
+
+    # Suppression des valeurs extrêmes
     prix_max = df['prix'].quantile(0.95)
     prix_min = df['prix'].quantile(0.05)
     surface_max = df['surface'].quantile(0.95)
@@ -352,15 +360,14 @@ def prepare_df_model_b(df):
     prix_m2_max = df['prix_m2'].quantile(0.95)
     prix_m2_min = df['prix_m2'].quantile(0.05)
 
-    # Suppression des valeurs extrêmes
-    logging.info(df.shape)
+    logging.info(f"Suppression des valeurs extrêmes | Nb annonces avant filtrage: {df.shape}")
     df = df[(df['prix'] >= prix_min) & (df['prix'] <= prix_max)]
     df = df[(df['surface'] >= surface_min) & (df['surface'] <= surface_max)]
     df = df[(df['prix_m2'] >= prix_m2_min) & (df['prix_m2'] <= prix_m2_max)]
-    logging.info(df.shape)
+    logging.info(f"Suppression des valeurs extrêmes | Nb annonces après filtrage: {df.shape}")
 
 
-# Définition d'un prix median au m² comme base de référence pour voir si une feature a un impact positif ou négatif sur ce prix
+    # Définition d'un prix median au m² comme base de référence pour voir si une feature a un impact positif ou négatif sur ce prix
     df['dep'] = df['code_postal'].apply(lambda x: x[0:2])
 
     prix_m2_dep = df.groupby(['dep', 'type'])['prix_m2'].median().reset_index().rename(columns = {'prix_m2' : 'prix_m2_dep'})
@@ -392,8 +399,7 @@ def prepare_df_model_b(df):
     col.remove('prix_m2')
     col.remove('evol_prix_m2')
 
-    # Affichage de l'influence des features sur le prix au m²
-
+    # Calcul de l'influence des features sur le prix au m² et export dans un fichier CSV
     recap_annonces = pd.DataFrame()
 
     for c in col[1:]:

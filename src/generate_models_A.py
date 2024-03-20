@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import logging
 import joblib
 import datetime
-
 from mlflow import MlflowClient
 import mlflow
 from sklearn.model_selection import train_test_split
-from generate_models_functions import random_forest_model, reduc_dim_lasso, print_results
+
+from .generate_models_functions import random_forest_model, reduc_dim_lasso, print_results
 
 
 # Tracking ML Flow - Model A : base price estimation
@@ -16,7 +16,7 @@ client = MlflowClient(tracking_uri="http://127.0.0.1:8080")
 
 def generate_models_A(suffix):
 
-    logging.basicConfig(filename='./logs/logs_calculate_models_A_' + suffix + '.log', level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    logging.basicConfig(filename='logs/logs_calculate_models_A_' + suffix + '.log', level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
     # Tracking ML Flow - Settings
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")

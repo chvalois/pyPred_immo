@@ -674,7 +674,6 @@ def add_bpe(df):
     bpe = bpe[['DCIRIS', 'TYPEQU', 'NB_EQUIP', 'DEP']].rename(columns = {'DCIRIS': 'code_iris', 'NB_EQUIP': 'nb_equipements'})
 
     # Suppression des lignes correspondant à la Corse et aux DOM TOM
-    print(bpe.shape)
     bpe = bpe[-((bpe["DEP"] == "2A") | (bpe["DEP"] == "2B"))]
     bpe["DEP"] = bpe["DEP"].astype(int)
     bpe = bpe[bpe['DEP'] <= 95]
