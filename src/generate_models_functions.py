@@ -218,7 +218,7 @@ def process_nlp_ads(df):
     # Use following command if missing (TODO in .sh): python -m spacy download fr_core_news_md
     nlp = spacy.load('fr_core_news_md')
     
-    nlp.max_length = 5000000
+    nlp.max_length = 100000000
     # Constitution du corpus
     n_lines = df.shape[0]
     text = ""
